@@ -11,7 +11,7 @@ export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
   const posts: PostType[] = useSelector((state: RootState) => state.post.posts);
   const location = useLocation();
-  const [totalComment, setTotalComment] = useState(0);
+  const [totalComment, setTotalComment] = useState<number[]>([]);
 
   useEffect(() => {
     if (location.state?.refresh && currentUser != null) {
@@ -20,20 +20,35 @@ export default function Home() {
   }, [location.state]);
 
   useEffect(() => {
-    if (currentUser !== null) {
-      dispatch(fetchPosts(currentUser.id));
-    }
+    const fetchData = async () => {
+      if (currentUser !== null) {
+        await dispatch(fetchPosts(currentUser.id));
+      }
+    };
+    fetchData();
   }, [currentUser?.id]);
 
-  const fetchAmountOfComment = async (postId: string) => {
+  useEffect(() => {
+    const fetchTotalComment = async () => {
+      const tempArray: number[] = [];
+      for (const item of posts) {
+        const amountContent: number = await fetchAmountOfComment(item.id);
+        tempArray.push(amountContent);
+      }
+      setTotalComment(tempArray);
+    };
+    fetchTotalComment();
+  }, [posts]);
+
+  const fetchAmountOfComment = async (postId: string): Promise<number> => {
     const response = await supabase
       .from("comments")
       .select("*")
       .eq("post_id", postId);
     if (response.error != null) {
-      throw new Error("Failed to fetch reply comment");
+      return 0;
     }
-    setTotalComment(response.data.length);
+    return response.data.length;
   };
 
   return (
@@ -42,7 +57,6 @@ export default function Home() {
         <p className="text-center text-4xl font-bold">Recent posts</p>
         <div className="flex flex-wrap gap-5 w-full max-w-[1300px] mx-auto mt-7 justify-center">
           {posts.map((item, index) => {
-            fetchAmountOfComment(item.id);
             return (
               <Link
                 to={`/postdetails/${item.id}`}
@@ -67,7 +81,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center gap-3">
                     <Comments width={30} height={30} fill="#4e90ed" />
-                    <p className="font-medium">{totalComment}</p>
+                    <p className="font-medium">{totalComment[index]}</p>
                   </div>
                 </div>
               </Link>

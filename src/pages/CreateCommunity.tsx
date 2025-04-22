@@ -32,8 +32,7 @@ export default function CreateCommunity() {
       }
       await dispatch(
         addCommunity({ name: watch("name"), description: watch("description") })
-      );
-      return;
+      );  
     } catch (error) {}
     navigate("/communities", { state: { refresh: true } });
   };
