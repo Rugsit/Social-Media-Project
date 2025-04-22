@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
 import { useEffect } from "react";
@@ -12,6 +12,7 @@ export default function CreateCommunity() {
     watch,
     formState,
     reset,
+    setError,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
@@ -19,12 +20,20 @@ export default function CreateCommunity() {
     (state: RootState) => state.community.status
   );
   const dispatch = useDispatch<AppDispatch>();
+  const currentUser = useSelector((state: RootState) => state.auth.user);
 
   const onSubmit = async () => {
     try {
+      if (currentUser === null) {
+        setError("form", {
+          type: "manual",
+          message: "You can't create a community before sign in.",
+        });
+      }
       await dispatch(
         addCommunity({ name: watch("name"), description: watch("description") })
       );
+      return;
     } catch (error) {}
     navigate("/communities", { state: { refresh: true } });
   };
@@ -56,11 +65,16 @@ export default function CreateCommunity() {
           <p className="text-[18px]">Description</p>
           <textarea
             {...register("description", { required: true })}
-            className="border-2 border-gray-200 h-[150px] rounded-lg px-2 py-3 focus:outline-gray-400 resize-none"
+            className="border-2 border-gray-200 h-[150px] rounded-lg px-2 py-3 focus:outline-gray-400 resize-none text-[18px]"
           />
           {errors.description && (
             <p className="text-red-400">
               You must enter some text in description
+            </p>
+          )}
+          {errors.form && (
+            <p className="text-red-400">
+              {(errors.form as FieldError)?.message}
             </p>
           )}
 

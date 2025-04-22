@@ -88,7 +88,7 @@ export default function CreatePost() {
           <p className="text-[18px]">Title</p>
           <input
             {...register("title", { required: true })}
-            className="border-2 border-gray-200 px-2 py-3 text-[18px] rounded-lg focus:outline-gray-400"
+            className="border-2 border-gray-200 px-2 py-3 text-[18px] rounded-lg focus:outline-gray-400 "
           />
           {errors.title && (
             <p className="text-red-400">You must enter some text in title</p>
@@ -97,7 +97,7 @@ export default function CreatePost() {
           <p className="text-[18px]">Content</p>
           <textarea
             {...register("content", { required: true })}
-            className="border-2 border-gray-200 h-[150px] rounded-lg px-2 py-3 focus:outline-gray-400 resize-none"
+            className="border-2 border-gray-200 h-[150px] rounded-lg px-2 py-3 focus:outline-gray-400 resize-none text-[18px]"
           />
           {errors.content && (
             <p className="text-red-400">You must enter some text in content</p>
