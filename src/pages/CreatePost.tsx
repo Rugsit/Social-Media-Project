@@ -35,6 +35,13 @@ export default function CreatePost() {
   const dispatch = useDispatch<AppDispatch>();
   const onSubmit = async () => {
     const imageFile: File = watch("image") && watch("image")[0];
+    if (currentUser === null) {
+      setError("form", {
+        type: "manual",
+        message: "You can't create a post before sign in.",
+      });
+      return;
+    }
     const response = await supabase
       .from("join")
       .select("*")
