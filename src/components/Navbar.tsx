@@ -16,7 +16,7 @@ export default function Navbar() {
     });
   }
 
-  supabase.auth.onAuthStateChange((event, session: Session | null) => {
+  supabase.auth.onAuthStateChange((_event, session: Session | null) => {
     dispatch(setUser(session?.user || null));
   });
 

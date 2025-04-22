@@ -2,7 +2,7 @@ import { FieldError, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
 import { addPost } from "../features/postSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { User } from "@supabase/supabase-js";
 import { useNavigate } from "react-router";
 import { v4 as uuidv4 } from "uuid";

@@ -1,11 +1,9 @@
 import { useForm } from "react-hook-form";
 import { CommentType } from "../features/commentsSlice";
 import { useEffect, useState } from "react";
-import { DropDown } from "./Icon";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
 import { addComment } from "../features/postSlice";
-import { supabase } from "../supabase-client";
 
 export default function Comment({
   item,

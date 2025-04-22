@@ -7,12 +7,11 @@ import {
   fetchPostById,
   updateVotingStatus,
 } from "../features/postSlice";
-import { Dislike, DropDown, Like } from "../components/Icon";
+import { Dislike, Like } from "../components/Icon";
 import clsx from "clsx";
 import { supabase } from "../supabase-client";
 import { useForm } from "react-hook-form";
 import { fetchCommentsByPostId } from "../features/commentsSlice";
-import Comment from "../components/Comment";
 import AllComments from "../components/AllComments";
 
 export default function PostDetais() {

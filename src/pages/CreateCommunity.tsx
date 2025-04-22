@@ -1,11 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
-import { addPost } from "../features/postSlice";
-import { useEffect, useState } from "react";
-import { User } from "@supabase/supabase-js";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { v4 as uuidv4 } from "uuid";
 import { addCommunity } from "../features/community";
 
 export default function CreateCommunity() {
@@ -17,9 +14,6 @@ export default function CreateCommunity() {
     reset,
     formState: { errors },
   } = useForm();
-  const currentUser: User | null = useSelector(
-    (state: RootState) => state.auth.user
-  );
   const navigate = useNavigate();
   const addCommunityStatus = useSelector(
     (state: RootState) => state.community.status
